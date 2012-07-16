@@ -227,6 +227,12 @@ class TwitterOAuth {
     $this->http_info = array_merge($this->http_info, curl_getinfo($ci));
     $this->url = $url;
     curl_close ($ci);
+
+    if ($this->http_code != 200) {
+	  $response = json_decode($response);
+	  throw new TwitterApiError($response->error, $this->http_code);
+    }
+
     return $response;
   }
 
